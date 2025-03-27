@@ -1,4 +1,4 @@
-[>>> Click here to read English-version <<<](README.md#English)
+[>>> Click here to read English-version <<<](#English)
 
 ## Описание
 Это узкоспециализированная инсталяция Arch Linux для майнига monero без ничего лишнего, предполагается, что блокчейн монеро закачан на другом разделе, который будет прописывается в fstab скриптом.
