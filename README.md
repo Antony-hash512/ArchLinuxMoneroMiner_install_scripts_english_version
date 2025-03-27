@@ -79,7 +79,7 @@ A few mandatory preparations before running the installer:
   If desired, you can review the script to understand what it does.
 * The disk layout must include:
   * An existing LVM volume group, where a new logical volume with the encrypted LUKS container and system will be added
-  * A Btrfs partition, which will be used to create a subvolume for the boot directory
+  * A Btrfs partition, which will be used to create a subvolume for the /boot mountpoint
 
 ### Installation
 
