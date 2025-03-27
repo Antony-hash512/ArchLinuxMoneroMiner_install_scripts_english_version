@@ -26,13 +26,11 @@ echo "test тест"
 
 # Вывод информации о блочных устройствах
 lsblk
-echo "указано: EFI: $EFI_DEV, Btrfs-раздел для добавления в него бута: $BTRFS_BOOT_DEV, группа томов LVM: $VG_NAME (всё это должно быть уже созданно)"
-echo "то будет создано: $BTRFS_BOOT_SUBVOL - том для бута в btrfs, $LV_ROOT - том в LVM, эти имена должны быть не заняты"
+echo "указано: EFI: $EFI_DEV, Btrfs-раздел для добавления в него бута: $BTRFS_BOOT_DEV, группа томов LVM: $VG_NAME (всё это должно быть уже созданно до запуска скрипта)"
+echo "то, что будет создано: $BTRFS_BOOT_SUBVOL - подтом для бута в btrfs, $LV_ROOT - том в LVM, эти имена должны быть не заняты будет создано скриптом"
 echo "если разделы правильно не подготовлены нажми cltr+C для прерывания скрипта и подготовь разделы"
 read EMPTY
 
-#этот шаг нужен, если установка идёт с уже установленной системы
-umount /boot/efi
 
 # Скачивание нужных для установки пакетов
 pacman -Suy
@@ -80,6 +78,7 @@ mount -o subvol=$BTRFS_BOOT_SUBVOL $BTRFS_BOOT_DEV /mnt/system_installing/boot
 # Монтирование EFI-раздела
 mkdir -p /mnt/system_installing/boot/efi
 mount $EFI_DEV /mnt/system_installing/boot/efi
+#при устновке из уже установленого арча, а не из iso-шинка проблем не будет, т.к. сразу две точки монтирования могут быть одновременно
 
 # Установка базовой системы
 pacstrap /mnt/system_installing base linux linux-firmware btrfs-progs lvm2 cryptsetup
@@ -118,8 +117,6 @@ rm /mnt/system_installing/run_inside_chroot.sh
 # Отмонтирование 
 umount -R /mnt/system_installing
 
-#только если установка была с уже установленной системы
-mount $EFI_DEV /boot/efi
 
 cryptsetup close cryptroot
 
