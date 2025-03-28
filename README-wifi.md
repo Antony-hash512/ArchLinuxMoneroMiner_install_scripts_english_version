@@ -1,27 +1,27 @@
-Чтобы подключиться к Wi-Fi в TTY, если установлен `NetworkManager`, можно использовать команду `nmcli`. Вот пошаговая инструкция:
+To connect to Wi-Fi in TTY, if `NetworkManager` is installed, you can use the `nmcli` command. Here's a step-by-step guide:
 
-1. **Узнать доступные сети:**
+1. **Find available networks:**
    ```bash
    nmcli device wifi list
    ```
-   Эта команда покажет список доступных Wi-Fi сетей.
+   This command will show a list of available Wi-Fi networks.
 
-2. **Подключиться к Wi-Fi сети:**
+2. **Connect to a Wi-Fi network:**
    ```bash
    nmcli device wifi connect "SSID" password "PASSWORD"
    ```
-   Замените `"SSID"` на имя вашей Wi-Fi сети, а `"PASSWORD"` на пароль от сети.
+   Replace `"SSID"` with the name of your Wi-Fi network, and `"PASSWORD"` with the network password.
 
-   Например:
+   For example:
    ```bash
    nmcli device wifi connect "MyNetwork" password "SuperSecretPassword"
    ```
 
-3. **Проверить статус подключения:**
-   После выполнения команды можно проверить, подключились ли вы успешно, с помощью команды:
+3. **Check connection status:**
+   After executing the command, you can check if you've connected successfully using the command:
    ```bash
    nmcli connection show --active
    ```
-   Если вы видите подключение с типом `wifi`, значит соединение установлено успешно.
+   If you see a connection with type `wifi`, it means the connection has been established successfully.
 
-Эти команды должны работать в любом терминале, включая TTY, если `NetworkManager` установлен и запущен.
+These commands should work in any terminal, including TTY, if `NetworkManager` is installed and running.

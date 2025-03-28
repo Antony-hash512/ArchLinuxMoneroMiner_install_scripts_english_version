@@ -1,66 +1,66 @@
-* temuxed_mnr_mining.sh - стартовый скрипт для майнинга
-* monerod_run.sh - запускается внутри сеанса tmux, одтельно запускать не нужно
+* temuxed_mnr_mining.sh - startup script for mining
+* monerod_run.sh - runs inside the tmux session, no need to launch separately
 
-переключение между окнами: `ctrl+b`, затем `o`
+switching between windows: `ctrl+b`, then `o`
 
-Чтобы отключиться от сеанса `tmux` и затем снова подключиться к нему, выполните следующие шаги:
+To detach from a `tmux` session and then reconnect to it, follow these steps:
 
-### 1. **Отключение от сеанса `tmux`:**
+### 1. **Detaching from a `tmux` session:**
 
-Чтобы отключиться от текущего сеанса `tmux`, не завершая его, используйте следующую комбинацию клавиш:
+To detach from the current `tmux` session without terminating it, use the following key combination:
 
 ```
-Ctrl + b, затем d
+Ctrl + b, then d
 ```
 
-- Нажмите и удерживайте `Ctrl`, затем нажмите `b`.
-- После этого отпустите клавиши и нажмите `d`. Это действие отсоединит вас от сеанса, но сам сеанс продолжит работу в фоновом режиме.
+- Press and hold `Ctrl`, then press `b`.
+- After releasing these keys, press `d`. This action will detach you from the session, but the session will continue to run in the background.
 
-### 2. **Повторное подключение к сеансу `tmux`:**
+### 2. **Reconnecting to a `tmux` session:**
 
-Чтобы снова подключиться к тому же сеансу, выполните команду:
+To reconnect to the same session, execute the command:
 
 ```bash
 tmux attach-session -t <session_name>
 ```
 
-Замените `<session_name>` на имя или номер сеанса, к которому вы хотите подключиться. Чтобы узнать список активных сеансов, выполните команду:
+Replace `<session_name>` with the name or number of the session you want to connect to. To see a list of active sessions, run the command:
 
 ```bash
 tmux ls
 ```
 
-Пример:
+Example:
 
-- Если у вас есть один активный сеанс, вы можете подключиться к нему так:
+- If you have one active session, you can connect to it like this:
   ```bash
   tmux attach-session
   ```
 
-Теперь вы сможете отключиться от сеанса и подключаться к нему в любое время.
+Now you can detach from the session and reconnect to it at any time.
 
-Чтобы завершить сеанс `tmux`, есть несколько способов:
+To terminate a `tmux` session, there are several methods:
 
-### 1. Завершение сеанса изнутри:
-- Внутри активного сеанса `tmux`, вы можете просто закрыть все окна и панели, что автоматически завершит сеанс. Для этого закройте текущую командную оболочку (например, с помощью команды `exit`):
+### 1. Terminating a session from within:
+- Inside an active `tmux` session, you can simply close all windows and panes, which will automatically end the session. To do this, close the current command shell (for example, using the `exit` command):
    ```bash
    exit
    ```
 
-### 2. Завершение с помощью команды `tmux kill-session`:
-- Если вы хотите завершить конкретный сеанс `tmux`, не находясь в нём, выполните команду:
+### 2. Terminating using the `tmux kill-session` command:
+- If you want to terminate a specific `tmux` session without being in it, execute the command:
    ```bash
    tmux kill-session -t <session_name>
    ```
-   Замените `<session_name>` на имя сеанса, который вы хотите завершить. Чтобы узнать имя сеанса, можно использовать команду:
+   Replace `<session_name>` with the name of the session you want to terminate. To find out the session name, you can use the command:
    ```bash
    tmux ls
    ```
 
-### 3. Завершение всех сеансов:
-- Чтобы завершить все активные сеансы `tmux`, выполните команду:
+### 3. Terminating all sessions:
+- To terminate all active `tmux` sessions, execute the command:
    ```bash
    tmux kill-server
    ```
 
-Этот метод завершает все активные сеансы `tmux` и останавливает сам сервер `tmux`.
+This method terminates all active `tmux` sessions and stops the `tmux` server itself.

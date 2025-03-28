@@ -1,128 +1,128 @@
-**`iwd`** (iNet wireless daemon) — это современная консольная утилита для управления Wi-Fi на Linux, которая может работать как альтернатива **`wpa_supplicant`**. Чтобы подключиться к Wi-Fi с помощью **iwd**, нужно выполнить несколько шагов чтобы подключиться к Wi-Fi с загрузочного iso-шника Арча где нет NetworkManger'а
+**`iwd`** (iNet wireless daemon) is a modern console utility for managing Wi-Fi on Linux, which can work as an alternative to **`wpa_supplicant`**. To connect to Wi-Fi using **iwd**, you need to follow several steps to connect to Wi-Fi from the Arch boot ISO where NetworkManager is not available.
 
-### Шаги для подключения к Wi-Fi через **iwd**:
+### Steps to connect to Wi-Fi through **iwd**:
 
-1. **Запуск службы iwd**:
+1. **Starting the iwd service**:
 
-   Сначала убедитесь, что служба **iwd** запущена:
+   First, make sure that the **iwd** service is running:
 
    ```bash
    sudo systemctl start iwd
    ```
 
-   Если вы хотите, чтобы служба запускалась автоматически при загрузке, активируйте её:
+   If you want the service to start automatically at boot, activate it:
 
    ```bash
    sudo systemctl enable iwd
    ```
 
-2. **Запуск утилиты `iwctl`**:
+2. **Starting the `iwctl` utility**:
 
-   Для подключения к Wi-Fi используется утилита **`iwctl`**, которая идёт вместе с **iwd**. Запустите её:
+   To connect to Wi-Fi, use the **`iwctl`** utility, which comes with **iwd**. Start it:
 
    ```bash
    sudo iwctl
    ```
 
-   Внутри этого интерфейса вы будете вводить команды для управления подключениями Wi-Fi.
+   Inside this interface, you will enter commands to manage Wi-Fi connections.
 
-3. **Проверка доступных интерфейсов**:
+3. **Checking available interfaces**:
 
-   Чтобы увидеть список беспроводных интерфейсов, выполните команду:
+   To see the list of wireless interfaces, run the command:
 
    ```bash
    device list
    ```
 
-   Вы увидите список доступных интерфейсов. Обычно это будет что-то вроде **`wlan0`**.
+   You will see a list of available interfaces. This will usually be something like **`wlan0`**.
 
-4. **Сканирование доступных сетей**:
+4. **Scanning for available networks**:
 
-   Теперь вы можете просканировать доступные Wi-Fi сети:
+   Now you can scan for available Wi-Fi networks:
 
    ```bash
    station wlan0 scan
    ```
 
-   (Замените **`wlan0`** на имя вашего интерфейса, если оно другое).
+   (Replace **`wlan0`** with the name of your interface if it's different).
 
-5. **Просмотр доступных сетей**:
+5. **Viewing available networks**:
 
-   После сканирования вы можете увидеть список доступных сетей:
+   After scanning, you can see a list of available networks:
 
    ```bash
    station wlan0 get-networks
    ```
 
-6. **Подключение к сети**:
+6. **Connecting to a network**:
 
-   Чтобы подключиться к сети, выполните команду:
+   To connect to a network, run the command:
 
    ```bash
    station wlan0 connect <SSID>
    ```
 
-   Замените **`<SSID>`** на имя Wi-Fi сети, к которой вы хотите подключиться. Если сеть защищена паролем, вам будет предложено ввести его.
+   Replace **`<SSID>`** with the name of the Wi-Fi network you want to connect to. If the network is password-protected, you will be prompted to enter the password.
 
-7. **Проверка подключения**:
+7. **Checking the connection**:
 
-   После подключения вы можете проверить статус вашего подключения:
+   After connecting, you can check the status of your connection:
 
    ```bash
    station wlan0 show
    ```
 
-   Если всё прошло успешно, вы увидите информацию о подключении.
+   If everything went well, you will see information about the connection.
 
-8. **Выход из iwctl**:
+8. **Exiting iwctl**:
 
-   Чтобы выйти из утилиты **`iwctl`**, просто выполните:
+   To exit the **`iwctl`** utility, simply run:
 
    ```bash
    exit
    ```
 
-### Настройка IP с помощью `dhclient` (если не используется NetworkManager или systemd-networkd):
+### Configuring IP using `dhclient` (if NetworkManager or systemd-networkd is not used):
 
-Если **`NetworkManager`** или **`systemd-networkd`** не управляют сетевыми подключениями, вам может потребоваться вручную запросить IP-адрес через **DHCP**:
+If **`NetworkManager`** or **`systemd-networkd`** are not managing network connections, you may need to manually request an IP address via **DHCP**:
 
 ```bash
 sudo dhclient wlan0
 ```
 
-После этого должно быть назначено IP-адресное подключение.
+After this, an IP address should be assigned.
 
-### Дополнительные команды:
+### Additional commands:
 
-- **Отключение от сети**:
+- **Disconnecting from a network**:
 
-   Если вы хотите отключиться от текущей сети, используйте:
+   If you want to disconnect from the current network, use:
 
    ```bash
    station wlan0 disconnect
    ```
 
-- **Просмотр текущих подключений**:
+- **Viewing current connections**:
 
-   Команда для просмотра состояния:
+   Command to view the status:
 
    ```bash
    station wlan0 show
    ```
 
-### Установка **iwd** (если не установлена):
+### Installing **iwd** (if not installed):
 
-Если **iwd** не установлен, его можно установить через **pacman**:
+If **iwd** is not installed, it can be installed via **pacman**:
 
 ```bash
 sudo pacman -S iwd
 ```
 
-### Резюме:
+### Summary:
 
-1. Запустите **iwd** и утилиту **iwctl**.
-2. Используйте **iwctl** для сканирования доступных сетей и подключения.
-3. Введите пароль, если сеть защищена.
-4. Проверьте подключение, используя **station wlan0 show**.
+1. Start **iwd** and the **iwctl** utility.
+2. Use **iwctl** to scan for available networks and connect.
+3. Enter the password if the network is protected.
+4. Check the connection using **station wlan0 show**.
 
-Таким образом, вы можете подключиться к Wi-Fi из консоли, используя **iwd**.
+This way, you can connect to Wi-Fi from the console using **iwd**.

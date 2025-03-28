@@ -1,57 +1,57 @@
 #!/bin/bash
 
-# Установка переменных
+# Setting variables
 LVM_VOLUME="/dev/mainvg/mining_randomx"
 BTRFS_DEVICE="/dev/nvme0n1p9"
 BTRFS_SUBVOLUME="@mining_randomx_boot"
 MOUNT_POINT="/mnt/btrfs_mount"
 
-# Удаление LVM тома
-echo "Удаление LVM тома: $LVM_VOLUME"
+# Removing LVM volume
+echo "Removing LVM volume: $LVM_VOLUME"
 if lvdisplay $LVM_VOLUME &>/dev/null; then
     sudo lvremove -y $LVM_VOLUME
     if [ $? -eq 0 ]; then
-        echo "LVM том $LVM_VOLUME успешно удалён."
+        echo "LVM volume $LVM_VOLUME successfully removed."
     else
-        echo "Ошибка при удалении LVM тома $LVM_VOLUME."
+        echo "Error when removing LVM volume $LVM_VOLUME."
         exit 1
     fi
 else
-    echo "LVM том $LVM_VOLUME не найден."
+    echo "LVM volume $LVM_VOLUME not found."
 fi
 
-# Монтирование Btrfs-раздела
-echo "Монтирование Btrfs-раздела: $BTRFS_DEVICE"
+# Mounting Btrfs partition
+echo "Mounting Btrfs partition: $BTRFS_DEVICE"
 sudo mkdir -p $MOUNT_POINT
 sudo mount $BTRFS_DEVICE $MOUNT_POINT
 if [ $? -ne 0 ]; then
-    echo "Ошибка при монтировании Btrfs-раздела $BTRFS_DEVICE."
+    echo "Error when mounting Btrfs partition $BTRFS_DEVICE."
     exit 1
 fi
 
-# Удаление подтома Btrfs
-echo "Удаление подтома: $BTRFS_SUBVOLUME"
+# Removing Btrfs subvolume
+echo "Removing subvolume: $BTRFS_SUBVOLUME"
 if sudo btrfs subvolume show $MOUNT_POINT/$BTRFS_SUBVOLUME &>/dev/null; then
     sudo btrfs subvolume delete $MOUNT_POINT/$BTRFS_SUBVOLUME
     if [ $? -eq 0 ]; then
-        echo "Подтом $BTRFS_SUBVOLUME успешно удалён."
+        echo "Subvolume $BTRFS_SUBVOLUME successfully removed."
     else
-        echo "Ошибка при удалении подтома $BTRFS_SUBVOLUME."
+        echo "Error when removing subvolume $BTRFS_SUBVOLUME."
         sudo umount $MOUNT_POINT
         exit 1
     fi
 else
-    echo "Подтом $BTRFS_SUBVOLUME не найден."
+    echo "Subvolume $BTRFS_SUBVOLUME not found."
 fi
 
-# Отмонтирование Btrfs-раздела
-echo "Отмонтирование Btrfs-раздела: $BTRFS_DEVICE"
+# Unmounting Btrfs partition
+echo "Unmounting Btrfs partition: $BTRFS_DEVICE"
 sudo umount $MOUNT_POINT
 if [ $? -eq 0 ]; then
-    echo "Btrfs-раздел $BTRFS_DEVICE успешно отмонтирован."
+    echo "Btrfs partition $BTRFS_DEVICE successfully unmounted."
 else
-    echo "Ошибка при отмонтировании Btrfs-раздела $BTRFS_DEVICE."
+    echo "Error when unmounting Btrfs partition $BTRFS_DEVICE."
     exit 1
 fi
 
-echo "Операции завершены."
+echo "Operations completed."
