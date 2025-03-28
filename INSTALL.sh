@@ -3,6 +3,11 @@
 # This script is designed for automatic installation of Arch Linux on an encrypted LVM volume in an existing volume group
 
 # Make sure you run this script as superuser (root)
+# Checking...
+if [[ "$EUID" -ne 0 ]]; then
+    echo -e "\033[31mERROR: This script must be run as root\033[0m" >&2
+    exit 1
+fi
 
 # Setting variables
 VG_NAME="mainvg"  # Specify the name of the existing volume group
@@ -19,10 +24,6 @@ SOFT_PACK2="networkmanager btrfs-progs nano vim mc man-db less htop tmux monero 
 
 # Update time
 timedatectl set-ntp true
-
-echo "test test"
-setfont cyr-sun16
-echo "test test"
 
 # Display information about block devices
 lsblk
